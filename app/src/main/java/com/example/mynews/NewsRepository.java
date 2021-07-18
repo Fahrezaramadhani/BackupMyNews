@@ -24,12 +24,48 @@ public class NewsRepository {
         newsApi = RetrofitService.createService(NewsAPI.class);
     }
 
-    public MutableLiveData<NewsResponse> getNews(String country, String key){
+//    public MutableLiveData<NewsResponse> getNews(String country, String key) {
+//        newsApi.getNewsListFilter(country, key).enqueue(new Callback<NewsResponse>() {
+//            @Override
+//            public void onResponse(Call<NewsResponse> call,
+//                                   Response<NewsResponse> response) {
+//                if (response.isSuccessful()) {
+//                    newsData.setValue(response.body());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<NewsResponse> call, Throwable t) {
+//                newsData.setValue(null);
+//            }
+//        });
+//        return newsData;
+//    }
+
+    public MutableLiveData<NewsResponse> getNews(String country, String key) {
         newsApi.getNewsList(country, key).enqueue(new Callback<NewsResponse>() {
             @Override
             public void onResponse(Call<NewsResponse> call,
                                    Response<NewsResponse> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
+                    newsData.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NewsResponse> call, Throwable t) {
+                newsData.setValue(null);
+            }
+        });
+        return newsData;
+    }
+
+    public MutableLiveData<NewsResponse> getNewsEverythingFilter(String keyword, String key) {
+        newsApi.getNewsEverythingFilter(keyword, key).enqueue(new Callback<NewsResponse>() {
+            @Override
+            public void onResponse(Call<NewsResponse> call,
+                                   Response<NewsResponse> response) {
+                if (response.isSuccessful()) {
                     newsData.setValue(response.body());
                 }
             }
